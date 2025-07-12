@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://bar0eha7rje2o"]
+
+[ext_resource type="Script" path="res://scripts/prefabs/enemy_paddle.gd" id="1_3yhb3"]
+[ext_resource type="PackedScene" uid="uid://dxa78ih8w5531" path="res://components/movement_component.tscn" id="1_sopmg"]
+[ext_resource type="PackedScene" uid="uid://5itqmwag64ax" path="res://components/input_component.tscn" id="3_o6enp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1vsrx"]
+size = Vector2(20, 162)
+
+[node name="EnemyPaddle" type="CharacterBody2D" node_paths=PackedStringArray("movement_component", "input_component")]
+script = ExtResource("1_3yhb3")
+movement_component = NodePath("MovementComponent")
+input_component = NodePath("InputComponent")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -10.0
+offset_top = -81.0
+offset_right = 10.0
+offset_bottom = 81.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1vsrx")
+
+[node name="MovementComponent" parent="." instance=ExtResource("1_sopmg")]
+speed = 500
+
+[node name="InputComponent" parent="." instance=ExtResource("3_o6enp")]
+p1 = false
