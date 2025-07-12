@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://b4817ga7oawd5"]
+[gd_scene load_steps=6 format=3 uid="uid://b4817ga7oawd5"]
 
 [ext_resource type="Script" path="res://scripts/scenes/game.gd" id="1_ansmn"]
 [ext_resource type="PackedScene" uid="uid://kjfxektexbsm" path="res://prefabs/player_paddle.tscn" id="1_u5eg2"]
 [ext_resource type="PackedScene" uid="uid://bar0eha7rje2o" path="res://prefabs/enemy_paddle.tscn" id="2_x4g48"]
 [ext_resource type="PackedScene" uid="uid://yen8i82m1miy" path="res://prefabs/ball.tscn" id="4_fach5"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3tf71"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_ansmn")
@@ -25,5 +27,25 @@ position = Vector2(1120, 92)
 
 [node name="Ball" parent="." instance=ExtResource("4_fach5")]
 position = Vector2(576, 324)
-scale = Vector2(0.5, 0.5)
 metadata/_edit_lock_ = true
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+
+[node name="TopBoundary" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(0, 4)
+rotation = -3.14159
+shape = SubResource("WorldBoundaryShape2D_3tf71")
+
+[node name="BottomBoundary" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(0, 644)
+shape = SubResource("WorldBoundaryShape2D_3tf71")
+
+[node name="LeftBoundary" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(4, 0)
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_3tf71")
+
+[node name="RightBoundary" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(1148, 0)
+rotation = -1.5708
+shape = SubResource("WorldBoundaryShape2D_3tf71")

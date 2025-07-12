@@ -8,6 +8,7 @@
 size = Vector2(20, 162)
 
 [node name="EnemyPaddle" type="CharacterBody2D" node_paths=PackedStringArray("movement_component", "input_component")]
+collision_layer = 2
 script = ExtResource("1_3yhb3")
 movement_component = NodePath("MovementComponent")
 input_component = NodePath("InputComponent")
