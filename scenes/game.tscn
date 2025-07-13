@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4817ga7oawd5"]
+[gd_scene load_steps=8 format=3 uid="uid://b4817ga7oawd5"]
 
 [ext_resource type="Script" path="res://scripts/scenes/game.gd" id="1_ansmn"]
 [ext_resource type="PackedScene" uid="uid://kjfxektexbsm" path="res://prefabs/player_paddle.tscn" id="1_u5eg2"]
 [ext_resource type="PackedScene" uid="uid://bar0eha7rje2o" path="res://prefabs/enemy_paddle.tscn" id="2_x4g48"]
 [ext_resource type="PackedScene" uid="uid://yen8i82m1miy" path="res://prefabs/ball.tscn" id="4_fach5"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="5_a0s3h"]
+[ext_resource type="Script" path="res://scripts/score_detector.gd" id="6_wbod0"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3tf71"]
 
@@ -27,25 +29,65 @@ position = Vector2(1120, 92)
 
 [node name="Ball" parent="." instance=ExtResource("4_fach5")]
 position = Vector2(576, 324)
+contact_monitor = true
+max_contacts_reported = 5
 metadata/_edit_lock_ = true
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
+[node name="TopBound" type="StaticBody2D" parent="."]
 
-[node name="TopBoundary" type="CollisionShape2D" parent="RigidBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopBound"]
 position = Vector2(0, 4)
 rotation = -3.14159
 shape = SubResource("WorldBoundaryShape2D_3tf71")
 
-[node name="BottomBoundary" type="CollisionShape2D" parent="RigidBody2D"]
+[node name="BottomBound" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomBound"]
 position = Vector2(0, 644)
 shape = SubResource("WorldBoundaryShape2D_3tf71")
 
-[node name="LeftBoundary" type="CollisionShape2D" parent="RigidBody2D"]
+[node name="LeftBound" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftBound"]
 position = Vector2(4, 0)
 rotation = 1.5708
 shape = SubResource("WorldBoundaryShape2D_3tf71")
 
-[node name="RightBoundary" type="CollisionShape2D" parent="RigidBody2D"]
+[node name="RightBound" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightBound"]
 position = Vector2(1148, 0)
 rotation = -1.5708
 shape = SubResource("WorldBoundaryShape2D_3tf71")
+
+[node name="HUD" type="Control" parent="." node_paths=PackedStringArray("p1_score_label", "p2_score_label")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_a0s3h")
+p1_score_label = NodePath("P1ScoreLabel")
+p2_score_label = NodePath("P2ScoreLabel")
+
+[node name="P1ScoreLabel" type="Label" parent="HUD"]
+layout_mode = 0
+offset_left = 64.0
+offset_right = 585.0
+offset_bottom = 88.0
+theme_override_font_sizes/font_size = 64
+text = "0"
+
+[node name="P2ScoreLabel" type="Label" parent="HUD"]
+layout_mode = 0
+offset_left = 586.0
+offset_right = 1088.0
+offset_bottom = 88.0
+theme_override_font_sizes/font_size = 64
+text = "0"
+horizontal_alignment = 2
+
+[node name="ScoreDetector" type="Node" parent="." node_paths=PackedStringArray("ball", "left_bound", "right_bound")]
+script = ExtResource("6_wbod0")
+ball = NodePath("../Ball")
+left_bound = NodePath("../LeftBound")
+right_bound = NodePath("../RightBound")
