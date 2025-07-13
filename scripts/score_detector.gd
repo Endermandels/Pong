@@ -15,6 +15,6 @@ func _ready() -> void:
 
 func _on_ball_body_entered(body: Node) -> void:
     if body == left_bound:
-        GameStats.increase_p1_score()
-    if body == right_bound:
         GameStats.increase_p2_score()
+    if body == right_bound:
+        GameStats.increase_p1_score()

@@ -60,7 +60,7 @@ position = Vector2(1148, 0)
 rotation = -1.5708
 shape = SubResource("WorldBoundaryShape2D_3tf71")
 
-[node name="HUD" type="Control" parent="." node_paths=PackedStringArray("p1_score_label", "p2_score_label")]
+[node name="HUD" type="Control" parent="." node_paths=PackedStringArray("p1_score_label", "p2_score_label", "p1_won_label", "p2_won_label")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -68,6 +68,8 @@ offset_bottom = 40.0
 script = ExtResource("5_a0s3h")
 p1_score_label = NodePath("P1ScoreLabel")
 p2_score_label = NodePath("P2ScoreLabel")
+p1_won_label = NodePath("P1WonLabel")
+p2_won_label = NodePath("P2WonLabel")
 
 [node name="P1ScoreLabel" type="Label" parent="HUD"]
 layout_mode = 0
@@ -85,6 +87,26 @@ offset_bottom = 88.0
 theme_override_font_sizes/font_size = 64
 text = "0"
 horizontal_alignment = 2
+
+[node name="P1WonLabel" type="Label" parent="HUD"]
+visible = false
+layout_mode = 0
+offset_left = 145.0
+offset_top = 107.0
+offset_right = 1006.0
+offset_bottom = 282.0
+theme_override_font_sizes/font_size = 128
+text = "Player 1 Wins!"
+
+[node name="P2WonLabel" type="Label" parent="HUD"]
+visible = false
+layout_mode = 0
+offset_left = 145.0
+offset_top = 107.0
+offset_right = 1006.0
+offset_bottom = 282.0
+theme_override_font_sizes/font_size = 128
+text = "Player 2 Wins"
 
 [node name="ScoreDetector" type="Node" parent="." node_paths=PackedStringArray("ball", "left_bound", "right_bound")]
 script = ExtResource("6_wbod0")

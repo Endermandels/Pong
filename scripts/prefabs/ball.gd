@@ -12,6 +12,8 @@ func _ready() -> void:
     start_pos = position
     GameStats.p1_scored.connect(_on_player_scored)
     GameStats.p2_scored.connect(_on_player_scored)
+    GameStats.p1_won.connect(queue_free)
+    GameStats.p2_won.connect(queue_free)
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
     # Reset state of ball on player score
