@@ -1,16 +1,21 @@
-[gd_scene load_steps=8 format=3 uid="uid://b4817ga7oawd5"]
+[gd_scene load_steps=12 format=3 uid="uid://b4817ga7oawd5"]
 
 [ext_resource type="Script" path="res://scripts/scenes/game.gd" id="1_ansmn"]
 [ext_resource type="PackedScene" uid="uid://kjfxektexbsm" path="res://prefabs/player_paddle.tscn" id="1_u5eg2"]
 [ext_resource type="PackedScene" uid="uid://bar0eha7rje2o" path="res://prefabs/enemy_paddle.tscn" id="2_x4g48"]
 [ext_resource type="PackedScene" uid="uid://yen8i82m1miy" path="res://prefabs/ball.tscn" id="4_fach5"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="5_a0s3h"]
-[ext_resource type="Script" path="res://scripts/score_detector.gd" id="6_wbod0"]
+[ext_resource type="Script" path="res://scripts/ball_collision_handler.gd" id="6_i2ndl"]
+[ext_resource type="AudioStream" uid="uid://ca0hlk08ukg7m" path="res://assets/border.wav" id="7_wlikg"]
+[ext_resource type="AudioStream" uid="uid://dws4rjxu0m3uc" path="res://assets/paddle.wav" id="8_mlw4b"]
+[ext_resource type="AudioStream" uid="uid://cb746ul58lwlc" path="res://assets/score.wav" id="9_ltttv"]
+[ext_resource type="AudioStream" uid="uid://b87hrb7333sfh" path="res://assets/8-bit-video-game-win-level-sound-version-1-145827.mp3" id="10_f1tm6"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3tf71"]
 
-[node name="Game" type="Node"]
+[node name="Game" type="Node" node_paths=PackedStringArray("win_sound")]
 script = ExtResource("1_ansmn")
+win_sound = NodePath("WinSound")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -22,10 +27,10 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
 [node name="PlayerPaddle" parent="." instance=ExtResource("1_u5eg2")]
-position = Vector2(30, 92)
+position = Vector2(30, 320)
 
 [node name="EnemyPaddle" parent="." instance=ExtResource("2_x4g48")]
-position = Vector2(1120, 92)
+position = Vector2(1120, 320)
 
 [node name="Ball" parent="." instance=ExtResource("4_fach5")]
 position = Vector2(576, 324)
@@ -108,8 +113,26 @@ offset_bottom = 282.0
 theme_override_font_sizes/font_size = 128
 text = "Player 2 Wins"
 
-[node name="ScoreDetector" type="Node" parent="." node_paths=PackedStringArray("ball", "left_bound", "right_bound")]
-script = ExtResource("6_wbod0")
+[node name="BallCollisionHandler" type="Node" parent="." node_paths=PackedStringArray("ball", "left_bound", "right_bound", "top_bound", "bottom_bound", "border_sound", "paddle_sound", "score_sound")]
+script = ExtResource("6_i2ndl")
 ball = NodePath("../Ball")
 left_bound = NodePath("../LeftBound")
 right_bound = NodePath("../RightBound")
+top_bound = NodePath("../TopBound")
+bottom_bound = NodePath("../BottomBound")
+border_sound = NodePath("BorderSound")
+paddle_sound = NodePath("PaddleSound")
+score_sound = NodePath("ScoreSound")
+
+[node name="BorderSound" type="AudioStreamPlayer" parent="BallCollisionHandler"]
+stream = ExtResource("7_wlikg")
+
+[node name="PaddleSound" type="AudioStreamPlayer" parent="BallCollisionHandler"]
+stream = ExtResource("8_mlw4b")
+
+[node name="ScoreSound" type="AudioStreamPlayer" parent="BallCollisionHandler"]
+stream = ExtResource("9_ltttv")
+
+[node name="WinSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_f1tm6")
+volume_db = -7.496
